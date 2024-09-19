@@ -37,13 +37,13 @@ unzip /tmp/awscliv2.zip -d /tmp/ >> /dev/null
 /tmp/aws/install
 rm -rf /tmp/aws /tmp/awscliv2.zip
 
-## git scripts for enf-user ##
+## webcontent and setup script ##
 sudo -i -u "${USER}" git clone https://github.com/eosnetworkfoundation/web-host-snapshots
 ## s3 nginx proxy ##
 sudo -i -u "${USER}" git clone https://github.com/nginxinc/nginx-s3-gateway.git
 ## set env for s3 proxy access ##
 cp /home/${USER}/web-host-snapshots/setting.env /home/${USER}/web-host-snapshots/prod.env
-export $(grep -v '^#' /home/${USER}/web-host-snapshots/prod.env | xargs)
+export "$(grep -v '^#' /home/${USER}/web-host-snapshots/prod.env | xargs)"
 ## remove bad checksum ##
 sed 's/\s*echo "[abcdef0123456789]*\s* ${key_tmp_file}" | sha256sum --check/echo $(sha256sum ${key_tmp_file})/' /home/${USER}/nginx-s3-gateway/standalone_ubuntu_oss_install.sh > /home/${USER}/nginx-s3-gateway/standalone_ubuntu_oss_install.sh.new
 mv /home/${USER}/nginx-s3-gateway/standalone_ubuntu_oss_install.sh.new /home/${USER}/nginx-s3-gateway/standalone_ubuntu_oss_install.sh
